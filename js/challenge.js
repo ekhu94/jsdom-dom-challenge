@@ -48,9 +48,6 @@ pauseBtn.addEventListener('click', () => {
         startTimer = setInterval(() => {
             timer();
         }, 1000);
-        while (likesList.firstChild) {
-            likesList.removeChild(likesList.firstChild);
-        }
         document.querySelectorAll('.normal-btn').forEach(btn => {
             btn.disabled = false;
         });
