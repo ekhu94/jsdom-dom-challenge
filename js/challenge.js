@@ -5,35 +5,7 @@ const pauseBtn = document.querySelector('button#pause');
 const likesList = document.querySelector('ul.likes');
 const likesCounter = {};
 const timeDisplay = document.querySelector('h1#counter');
-
-const listMsg = (time, clicks) => {
-    if (clicks === 1) {
-        return `${time} has been liked ${clicks} time`;
-    } else {
-        return `${time} has been liked ${clicks} times`;
-    }
-}
-
-const startTimer = () => {
-    window.setInterval(() => {
-        let sec = parseInt(timeDisplay.innerText);
-        timeDisplay.innerText = `${sec + 1}`;
-    }, 1000);
-}
-
-const stopTimer = () => {
-    window.clearInterval(() => {
-
-    })
-}
-
-document.addEventListener('load', startTimer());
-
-pauseBtn.addEventListener('click', () => {
-    if (pauseBtn.innerText === 'pause') {
-        
-    }
-})
+let reset = false;
 
 minusBtn.addEventListener('click', () => {
     let sec = parseInt(timeDisplay.innerText);
@@ -58,3 +30,49 @@ heartBtn.addEventListener('click', () => {
         li.innerText = listMsg(sec, likesCounter[sec]);
     }
 })
+
+pauseBtn.addEventListener('click', () => {
+    if (!reset) {
+        pauseBtn.innerText = 'resume';
+        stopTimer();
+        document.querySelectorAll('.normal-btn').forEach(btn => {
+            btn.disabled = true;
+        });
+        reset = true;
+    } else {
+        pauseBtn.innerText = 'pause';
+        timeDisplay.innerText = '0';
+        startTimer = setInterval(() => {
+            timer();
+        }, 1000);
+        while (likesList.firstChild) {
+            likesList.removeChild(likesList.firstChild);
+        }
+        document.querySelectorAll('.normal-btn').forEach(btn => {
+            btn.disabled = false;
+        });
+        reset = false;
+    }
+})
+
+const listMsg = (time, clicks) => {
+    if (clicks === 1) {
+        return `${time} has been liked ${clicks} time`;
+    } else {
+        return `${time} has been liked ${clicks} times`;
+    }
+}
+
+const timer = () => {
+    let sec = parseInt(timeDisplay.innerText);
+    timeDisplay.innerText = `${sec + 1}`;
+}
+
+let startTimer = setInterval(() => {
+    timer();
+}, 1000);
+
+const stopTimer = () => {
+    clearInterval(startTimer);
+}
+
