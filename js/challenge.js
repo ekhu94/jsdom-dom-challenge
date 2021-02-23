@@ -5,6 +5,8 @@ const pauseBtn = document.querySelector('button#pause');
 const likesList = document.querySelector('ul.likes');
 const likesCounter = {};
 const timeDisplay = document.querySelector('h1#counter');
+const commentsList = document.querySelector('div#list');
+const formBtn = document.querySelector('button#submit');
 let reset = false;
 
 minusBtn.addEventListener('click', () => {
@@ -41,7 +43,8 @@ pauseBtn.addEventListener('click', () => {
         reset = true;
     } else {
         pauseBtn.innerText = 'pause';
-        timeDisplay.innerText = '0';
+        // do you want a reset or not?!!
+        // timeDisplay.innerText = '0';
         startTimer = setInterval(() => {
             timer();
         }, 1000);
@@ -53,6 +56,14 @@ pauseBtn.addEventListener('click', () => {
         });
         reset = false;
     }
+})
+
+formBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    let comment = document.createElement('p');
+    comment.innerText = document.querySelector('#comment-input').value;
+    commentsList.appendChild(comment);
+
 })
 
 const listMsg = (time, clicks) => {
